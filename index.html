@@ -13,6 +13,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
+.cp-sel{width:250px;padding:7px 10px;font-size:12.5px}
+.cp-sq{position:relative;height:210px;border-radius:10px;border:1px solid var(--line);cursor:crosshair;background:#f00;touch-action:none}
+.cp-hu{position:relative;height:18px;margin-top:12px;border-radius:99px;border:1px solid var(--line);cursor:ew-resize;touch-action:none}
+.cp-knob{position:absolute;width:14px;height:14px;border:2.5px solid #fff;border-radius:50%;box-shadow:0 0 0 1.5px rgba(0,0,0,.55),0 2px 8px rgba(0,0,0,.35);transform:translate(-50%,-50%);pointer-events:none}
+.cp-knob.bar{width:10px;height:24px;border-radius:7px}
+.cp-native{display:flex;align-items:center;gap:10px;margin-top:12px}
+.cp-native input[type=color]{width:52px;height:38px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:3px;cursor:pointer}
+.cp-native span{font-size:11px;font-weight:700;color:var(--ink-2)}
 :root{--accent:#EF5A1A;--ink:#141414;--ink-2:#5c5850;--paper:#F2F0EC;--panel:rgba(255,255,255,.72);--solid:#fff;--line:rgba(20,20,20,.09);--shadow:0 10px 34px rgba(25,18,10,.12);--ease:cubic-bezier(.22,.9,.3,1.2)}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -1028,119 +1036,156 @@ function buildSwatches(id, list) {
 }
 
 /* ============ selettore avanzato ============ */
+/* ============ selettore avanzato ============ */
 function openColorPicker() {
-  var rgb0 = hexRgb(App.color);
-  var hsv0 = rgb2hsv(rgb0[0], rgb0[1], rgb0[2]);
-  cp = { h: hsv0[0], s: hsv0[1], v: hsv0[2] };
-  openModal('<div class="m-title"><span class="dot"></span>Riempimento uniforme</div>' +
-    '<div class="cp-top"><label class="cp-radio"><input type="radio" name="cpv" value="vis" checked> Visualizzatori colore</label><label class="cp-radio"><input type="radio" name="cpv" value="tav"> Tavolozze colore</label>' +
-    '<select class="m-select" id="cpViewSel" style="width:250px;padding:7px 10px;font-size:12.5px"><option value="H">HSB - Basato sulla tonalità</option><option value="S">HSB - Basato sulla saturazione</option><option value="V">HSB - Basato sulla luminosità</option></select>' +
-    '<select class="m-select" id="cpModel" style="width:110px;padding:7px 10px;font-size:12.5px"><option>CMYK</option><option>RGB</option><option>HSB</option><option>Lab</option></select></div>' +
-    '<div class="m-body"><div id="cpVis" class="cp-wrap"><div class="cp-left"><canvas id="cpSV" width="280" height="200"></canvas><canvas id="cpHue" width="280" height="16"></canvas></div>' +
-    '<div class="cp-right"><div class="m-label">Nome</div><input class="m-input" id="cpName" style="margin-bottom:12px"><div class="cp-grid">' +
-    '<div class="cp-f"><b>R</b><input id="cpR" type="number" min="0" max="255"></div><div class="cp-f"><b>G</b><input id="cpG" type="number" min="0" max="255"></div><div class="cp-f"><b>B</b><input id="cpB" type="number" min="0" max="255"></div><div class="cp-f"><b>Hex</b><input id="cpHex"></div>' +
-    '<div class="cp-f"><b>C</b><input id="cpC" type="number" min="0" max="100"></div><div class="cp-f"><b>M</b><input id="cpM" type="number" min="0" max="100"></div><div class="cp-f"><b>Y</b><input id="cpY" type="number" min="0" max="100"></div><div class="cp-f"><b>K</b><input id="cpK" type="number" min="0" max="100"></div>' +
-    '<div class="cp-f"><b>H</b><input id="cpH" type="number" min="0" max="360"></div><div class="cp-f"><b>S</b><input id="cpS" type="number" min="0" max="100"></div><div class="cp-f"><b>V</b><input id="cpV" type="number" min="0" max="100"></div><div class="cp-f"><b>L</b><input id="cpL" type="number" min="0" max="100"></div>' +
-    '<div class="cp-f"><b>a</b><input id="cpA" type="number"></div><div class="cp-f"><b>b</b><input id="cpB2" type="number"></div></div></div></div>' +
-    '<div id="cpTav" style="display:none"><div class="m-label">Moderni</div><div class="swatches" id="cpSwM" style="margin-bottom:14px"></div><div class="m-label">Pastello</div><div class="swatches" id="cpSwP" style="margin-bottom:14px"></div><div class="m-label">Colori del documento</div><div class="swatches" id="cpSwD"></div></div>' +
-    '<div class="cp-foot"><div id="cpPrev"></div><input class="m-input" id="cpNameShow" style="flex:1" readonly><button class="btn" id="cpEye" title="Contagocce di sistema"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 22 1-4 9.5-9.5 3 3L6 21l-4 1z"/><path d="m13 7 4-4 4 4-4 4"/></svg></button></div></div>' +
-    '<div class="m-actions"><button class="btn" data-close>Annulla</button><button class="btn accent" id="cpOk">Applica colore</button></div>');
-  var sv = $('#cpSV'), hue = $('#cpHue');
-  function drawSV() {
-    var x = sv.getContext('2d'), W = sv.width, H = sv.height;
-    var img = x.createImageData(W, H);
-    for (var py = 0; py < H; py++) for (var px = 0; px < W; px++) {
-      var u = px / W * 100, w2 = 100 - py / H * 100, h, s, v;
-      if (cpMode === 'H') { h = cp.h; s = u; v = w2; } else if (cpMode === 'S') { h = u * 3.6; s = cp.s; v = w2; } else { h = u * 3.6; s = w2; v = cp.v; }
-      var rgb = hsv2rgb(h, s, v), i = (py * W + px) * 4;
-      img.data[i] = rgb[0]; img.data[i + 1] = rgb[1]; img.data[i + 2] = rgb[2]; img.data[i + 3] = 255;
+  var t = rgb2hsv.apply(null, hexRgb(App.color));
+  cp = { h: t[0], s: t[1], v: t[2] };
+  openModal(
+    '<div class="m-title"><span class="dot"></span>Colore — spettro completo</div>' +
+    '<div class="cp-top">' +
+      '<label class="cp-radio"><input type="radio" name="cpv" value="vis" checked> Visualizzatori colore</label>' +
+      '<label class="cp-radio"><input type="radio" name="cpv" value="tav"> Tavolozze colore</label>' +
+      '<select class="m-select cp-sel" id="cpViewSel"><option value="H">HSB - Basato sulla tonalità</option><option value="S">HSB - Basato sulla saturazione</option><option value="V">HSB - Basato sulla luminosità</option></select>' +
+    '</div>' +
+    '<div class="m-body">' +
+      '<div id="cpVis" class="cp-wrap">' +
+        '<div class="cp-left">' +
+          '<div id="cpSQ" class="cp-sq"><div id="cpSQk" class="cp-knob"></div></div>' +
+          '<div id="cpHU" class="cp-hu"><div id="cpHUk" class="cp-knob bar"></div></div>' +
+          '<div class="cp-native"><input type="color" id="cpNative" value="#141414"><span>Selettore di sistema: spettro completo, crea qualsiasi colore</span></div>' +
+        '</div>' +
+        '<div class="cp-right">' +
+          '<div class="m-label">Nome</div><input class="m-input" id="cpName" style="margin-bottom:12px">' +
+          '<div class="cp-grid">' +
+            '<div class="cp-f"><b>R</b><input id="cpR" type="number" min="0" max="255"></div>' +
+            '<div class="cp-f"><b>G</b><input id="cpG" type="number" min="0" max="255"></div>' +
+            '<div class="cp-f"><b>B</b><input id="cpB" type="number" min="0" max="255"></div>' +
+            '<div class="cp-f"><b>Hex</b><input id="cpHex"></div>' +
+            '<div class="cp-f"><b>C</b><input id="cpC" type="number" min="0" max="100"></div>' +
+            '<div class="cp-f"><b>M</b><input id="cpM" type="number" min="0" max="100"></div>' +
+            '<div class="cp-f"><b>Y</b><input id="cpY" type="number" min="0" max="100"></div>' +
+            '<div class="cp-f"><b>K</b><input id="cpK" type="number" min="0" max="100"></div>' +
+            '<div class="cp-f"><b>H</b><input id="cpH" type="number" min="0" max="360"></div>' +
+            '<div class="cp-f"><b>S</b><input id="cpS" type="number" min="0" max="100"></div>' +
+            '<div class="cp-f"><b>V</b><input id="cpV" type="number" min="0" max="100"></div>' +
+            '<div class="cp-f"><b>L</b><input id="cpL" type="number" min="0" max="100"></div>' +
+            '<div class="cp-f"><b>a</b><input id="cpA" type="number"></div>' +
+            '<div class="cp-f"><b>b</b><input id="cpB2" type="number"></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div id="cpTav" style="display:none">' +
+        '<div class="m-label">Moderni</div><div class="swatches" id="cpSwM" style="margin-bottom:14px"></div>' +
+        '<div class="m-label">Pastello</div><div class="swatches" id="cpSwP" style="margin-bottom:14px"></div>' +
+        '<div class="m-label">Colori del documento</div><div class="swatches" id="cpSwD"></div>' +
+      '</div>' +
+      '<div class="cp-foot"><div id="cpPrev"></div><input class="m-input" id="cpNameShow" style="flex:1" readonly>' +
+        '<button class="btn" id="cpEye" title="Contagocce dallo schermo"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 22 1-4 9.5-9.5 3 3L6 21l-4 1z"/><path d="m13 7 4-4 4 4-4 4"/></svg></button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="m-actions"><button class="btn" data-close>Annulla</button><button class="btn accent" id="cpOk">Applica colore</button></div>'
+  );
+  var sq = $('#cpSQ'), hu = $('#cpHU'), sqk = $('#cpSQk'), huk = $('#cpHUk');
+  function grad(arr) { return 'linear-gradient(to right,' + arr.map(function (s, i) { return s + ' ' + (i / (arr.length - 1) * 100) + '%'; }).join(',') + ')'; }
+  function rgbNow() { return hsv2rgb(cp.h, cp.s, cp.v); }
+  function render() {
+    var i, c, arr = [];
+    if (cpMode === 'H') {
+      sq.style.background = 'linear-gradient(to top,#000,rgba(0,0,0,0)),linear-gradient(to right,#fff,hsl(' + cp.h + ',100%,50%))';
+    } else {
+      for (i = 0; i <= 6; i++) { c = cpMode === 'S' ? hsv2rgb(i * 60, cp.s, 100) : hsv2rgb(i * 60, 100, cp.v); arr.push('rgb(' + c.join(',') + ')'); }
+      sq.style.background = (cpMode === 'S' ? 'linear-gradient(to top,#000,rgba(0,0,0,0)),' : 'linear-gradient(to top,#fff,rgba(255,255,255,0)),') + grad(arr);
     }
-    x.putImageData(img, 0, 0);
-    var mx, my;
-    if (cpMode === 'H') { mx = cp.s / 100 * W; my = (100 - cp.v) / 100 * H; }
-    else if (cpMode === 'S') { mx = cp.h / 360 * W; my = (100 - cp.v) / 100 * H; }
-    else { mx = cp.h / 360 * W; my = (100 - cp.s) / 100 * H; }
-    x.lineWidth = 2; x.strokeStyle = '#fff'; x.strokeRect(mx - 4, my - 4, 8, 8);
-    x.lineWidth = 1; x.strokeStyle = '#000'; x.strokeRect(mx - 5.5, my - 5.5, 11, 11);
-  }
-  function drawHue() {
-    var x = hue.getContext('2d'), W = hue.width, H = hue.height;
-    var img = x.createImageData(W, H);
-    for (var px = 0; px < W; px++) {
-      var u = px / W * 100, rgb;
-      if (cpMode === 'H') rgb = hsv2rgb(u * 3.6, 100, 100);
-      else if (cpMode === 'S') rgb = hsv2rgb(cp.h, u, cp.v);
-      else rgb = hsv2rgb(cp.h, cp.s, u);
-      for (var py = 0; py < H; py++) { var i = (py * W + px) * 4; img.data[i] = rgb[0]; img.data[i + 1] = rgb[1]; img.data[i + 2] = rgb[2]; img.data[i + 3] = 255; }
-    }
-    x.putImageData(img, 0, 0);
-    var u2 = cpMode === 'H' ? cp.h / 360 : (cpMode === 'S' ? cp.s / 100 : cp.v / 100);
-    var mx = u2 * W;
-    x.fillStyle = '#fff'; x.fillRect(mx - 2, 0, 4, H);
-    x.strokeStyle = '#000'; x.strokeRect(mx - 2.5, 0, 5, H);
-  }
-  function sync() {
-    var rgb = hsv2rgb(cp.h, cp.s, cp.v), hex = rgbHex(rgb[0], rgb[1], rgb[2]);
+    arr = [];
+    for (i = 0; i <= 6; i++) { var u = i / 6 * 100; c = cpMode === 'H' ? hsv2rgb(u * 3.6, 100, 100) : cpMode === 'S' ? hsv2rgb(cp.h, u, cp.v) : hsv2rgb(cp.h, cp.s, u); arr.push('rgb(' + c.join(',') + ')'); }
+    hu.style.background = grad(arr);
+    var x, y, hp;
+    if (cpMode === 'H') { x = cp.s; y = cp.v; hp = cp.h / 3.6; }
+    else if (cpMode === 'S') { x = cp.h / 3.6; y = cp.v; hp = cp.s; }
+    else { x = cp.h / 3.6; y = cp.s; hp = cp.v; }
+    sqk.style.left = x + '%'; sqk.style.top = (100 - y) + '%';
+    huk.style.left = hp + '%'; huk.style.top = '50%';
+    var rgb = rgbNow(), hex = rgbHex(rgb[0], rgb[1], rgb[2]);
     var cm = rgb2cmyk(rgb[0], rgb[1], rgb[2]), lb = rgb2lab(rgb[0], rgb[1], rgb[2]);
     function set(id, v) { var el = $(id); if (el && document.activeElement !== el) el.value = v; }
     set('#cpR', rgb[0]); set('#cpG', rgb[1]); set('#cpB', rgb[2]); set('#cpHex', hex);
     set('#cpC', cm[0]); set('#cpM', cm[1]); set('#cpY', cm[2]); set('#cpK', cm[3]);
-    set('#cpH', cp.h); set('#cpS', cp.s); set('#cpV', cp.v);
+    set('#cpH', Math.round(cp.h)); set('#cpS', Math.round(cp.s)); set('#cpV', Math.round(cp.v));
     set('#cpL', lb[0]); set('#cpA', lb[1]); set('#cpB2', lb[2]);
+    var nm = colorName(rgb);
+    $('#cpNameShow').value = nm;
+    if (document.activeElement !== $('#cpName')) $('#cpName').value = nm;
     $('#cpPrev').style.background = hex;
-    $('#cpNameShow').value = colorName(rgb);
-    if (document.activeElement !== $('#cpName')) $('#cpName').value = colorName(rgb);
-    drawSV(); drawHue();
+    var nat = $('#cpNative');
+    if (document.activeElement !== nat) nat.value = hex.toLowerCase();
   }
-  function fromSV(e) {
-    var r = sv.getBoundingClientRect();
-    var u = clamp((e.clientX - r.left) / r.width * 100, 0, 100), w2 = clamp(100 - (e.clientY - r.top) / r.height * 100, 0, 100);
-    if (cpMode === 'H') { cp.s = u; cp.v = w2; } else if (cpMode === 'S') { cp.h = u * 3.6; cp.v = w2; } else { cp.h = u * 3.6; cp.s = w2; }
-    sync();
+  function fromSq(e) {
+    var r = sq.getBoundingClientRect();
+    var px = clamp((e.clientX - r.left) / r.width * 100, 0, 100);
+    var py = clamp((e.clientY - r.top) / r.height * 100, 0, 100);
+    if (cpMode === 'H') { cp.s = px; cp.v = 100 - py; }
+    else if (cpMode === 'S') { cp.h = px * 3.6; cp.v = 100 - py; }
+    else { cp.h = px * 3.6; cp.s = 100 - py; }
+    render();
   }
-  function fromHue(e) {
-    var r = hue.getBoundingClientRect();
-    var u = clamp((e.clientX - r.left) / r.width * 100, 0, 100);
-    if (cpMode === 'H') cp.h = u * 3.6; else if (cpMode === 'S') cp.s = u; else cp.v = u;
-    sync();
+  function fromHu(e) {
+    var r = hu.getBoundingClientRect();
+    var px = clamp((e.clientX - r.left) / r.width * 100, 0, 100);
+    if (cpMode === 'H') cp.h = px * 3.6; else if (cpMode === 'S') cp.s = px; else cp.v = px;
+    render();
   }
-  function drag(el, fn) {
-    el.addEventListener('pointerdown', function (e) {
-      el.setPointerCapture(e.pointerId); fn(e);
+  function bindDrag(el, fn) {
+    el.addEventListener('mousedown', function (e) {
+      e.preventDefault(); fn(e);
       function mv(ev) { fn(ev); }
-      function up() { el.removeEventListener('pointermove', mv); el.removeEventListener('pointerup', up); }
-      el.addEventListener('pointermove', mv); el.addEventListener('pointerup', up);
+      function up() { document.removeEventListener('mousemove', mv); document.removeEventListener('mouseup', up); }
+      document.addEventListener('mousemove', mv); document.addEventListener('mouseup', up);
     });
+    el.addEventListener('touchstart', function (e) {
+      e.preventDefault(); fn(e.touches[0]);
+      function mv(ev) { ev.preventDefault(); fn(ev.touches[0]); }
+      function up() { document.removeEventListener('touchmove', mv); document.removeEventListener('touchend', up); }
+      document.addEventListener('touchmove', mv, { passive: false }); document.addEventListener('touchend', up);
+    }, { passive: false });
   }
-  drag(sv, fromSV); drag(hue, fromHue);
-  $('#cpViewSel').onchange = function (e) { cpMode = e.target.value; sync(); };
-  Array.prototype.slice.call(document.querySelectorAll('[name=cpv]')).forEach(function (r) {
-    r.onchange = function () { $('#cpVis').style.display = r.value === 'vis' && r.checked ? '' : (r.value === 'tav' && r.checked ? 'none' : $('#cpVis').style.display); $('#cpTav').style.display = r.value === 'tav' && r.checked ? '' : (r.value === 'vis' && r.checked ? 'none' : $('#cpTav').style.display); };
+  bindDrag(sq, fromSq); bindDrag(hu, fromHu);
+  $('#cpViewSel').addEventListener('change', function (e) { cpMode = e.target.value; render(); });
+  $$('#modalBox [name=cpv]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      if (!r.checked) return;
+      $('#cpVis').style.display = r.value === 'vis' ? '' : 'none';
+      $('#cpTav').style.display = r.value === 'tav' ? '' : 'none';
+    });
   });
   function fillTav(id, list) { $(id).innerHTML = list.length ? list.map(function (c) { return '<span class="sw" style="background:' + c + '" data-c="' + c + '"></span>'; }).join('') : '<span style="font-size:12px;color:#a09a90">nessuno</span>'; }
   fillTav('#cpSwM', MODERN); fillTav('#cpSwP', PASTEL); fillTav('#cpSwD', docColorList());
-  $('#cpTav').addEventListener('click', function (e) { var s = e.target.closest('[data-c]'); if (!s) return; var hh = rgb2hsv.apply(null, hexRgb(s.dataset.c)); cp = { h: hh[0], s: hh[1], v: hh[2] }; sync(); });
-  function on(id, fn) { $(id).addEventListener('input', function (e) { fn(+e.target.value); sync(); }); }
-  on('#cpR', function (v) { var t = rgb2hsv(v, +$('#cpG').value, +$('#cpB').value); cp.h = t[0]; cp.s = t[1]; cp.v = t[2]; });
-  on('#cpG', function (v) { var t = rgb2hsv(+$('#cpR').value, v, +$('#cpB').value); cp.h = t[0]; cp.s = t[1]; cp.v = t[2]; });
-  on('#cpB', function (v) { var t = rgb2hsv(+$('#cpR').value, +$('#cpG').value, v); cp.h = t[0]; cp.s = t[1]; cp.v = t[2]; });
-  on('#cpC', function (v) { var t = rgb2hsv.apply(null, cmyk2rgb(v, +$('#cpM').value, +$('#cpY').value, +$('#cpK').value)); cp.h = t[0]; cp.s = t[1]; cp.v = t[2]; });
-  on('#cpM', function (v) { var t = rgb2hsv.apply(null, cmyk2rgb(+$('#cpC').value, v, +$('#cpY').value, +$('#cpK').value)); cp.h = t[0]; cp.s = t[1]; cp.v = t[2]; });
-  on('#cpY', function (v) { var t = rgb2hsv.apply(null, cmyk2rgb(+$('#cpC').value, +$('#cpM').value, v, +$('#cpK').value)); cp.h = t[0]; cp.s = t[1]; cp.v = t[2]; });
-  on('#cpK', function (v) { var t = rgb2hsv.apply(null, cmyk2rgb(+$('#cpC').value, +$('#cpM').value, +$('#cpY').value, v)); cp.h = t[0]; cp.s = t[1]; cp.v = t[2]; });
+  $('#cpTav').addEventListener('click', function (e) {
+    var s = e.target.closest('[data-c]'); if (!s) return;
+    var hh = rgb2hsv.apply(null, hexRgb(s.dataset.c)); cp = { h: hh[0], s: hh[1], v: hh[2] }; render();
+  });
+  function setHSV(rgb) { var hh = rgb2hsv(rgb[0], rgb[1], rgb[2]); cp.h = hh[0]; cp.s = hh[1]; cp.v = hh[2]; }
+  function on(id, fn) { $(id).addEventListener('input', function (e) { fn(+e.target.value); render(); }); }
+  on('#cpR', function (v) { setHSV([v, +$('#cpG').value, +$('#cpB').value]); });
+  on('#cpG', function (v) { setHSV([+$('#cpR').value, v, +$('#cpB').value]); });
+  on('#cpB', function (v) { setHSV([+$('#cpR').value, +$('#cpG').value, v]); });
+  on('#cpC', function (v) { setHSV(cmyk2rgb(v, +$('#cpM').value, +$('#cpY').value, +$('#cpK').value)); });
+  on('#cpM', function (v) { setHSV(cmyk2rgb(+$('#cpC').value, v, +$('#cpY').value, +$('#cpK').value)); });
+  on('#cpY', function (v) { setHSV(cmyk2rgb(+$('#cpC').value, +$('#cpM').value, v, +$('#cpK').value)); });
+  on('#cpK', function (v) { setHSV(cmyk2rgb(+$('#cpC').value, +$('#cpM').value, +$('#cpY').value, v)); });
   on('#cpH', function (v) { cp.h = clamp(v, 0, 360); });
   on('#cpS', function (v) { cp.s = clamp(v, 0, 100); });
   on('#cpV', function (v) { cp.v = clamp(v, 0, 100); });
-  on('#cpL', function (v) { var t = rgb2hsv.apply(null, lab2rgb(v, +$('#cpA').value, +$('#cpB2').value)); cp.h = t[0]; cp.s = t[1]; cp.v = t[2]; });
-  on('#cpA', function (v) { var t = rgb2hsv.apply(null, lab2rgb(+$('#cpL').value, v, +$('#cpB2').value)); cp.h = t[0]; cp.s = t[1]; cp.v = t[2]; });
-  on('#cpB2', function (v) { var t = rgb2hsv.apply(null, lab2rgb(+$('#cpL').value, +$('#cpA').value, v)); cp.h = t[0]; cp.s = t[1]; cp.v = t[2]; });
-  $('#cpHex').addEventListener('change', function (e) { var v = e.target.value.trim(); if (/^#?[0-9a-fA-F]{6}$/.test(v)) { var t = rgb2hsv.apply(null, hexRgb(v.charAt(0) === '#' ? v : '#' + v)); cp.h = t[0]; cp.s = t[1]; cp.v = t[2]; sync(); } });
+  on('#cpL', function (v) { setHSV(lab2rgb(v, +$('#cpA').value, +$('#cpB2').value)); });
+  on('#cpA', function (v) { setHSV(lab2rgb(+$('#cpL').value, v, +$('#cpB2').value)); });
+  on('#cpB2', function (v) { setHSV(lab2rgb(+$('#cpL').value, +$('#cpA').value, v)); });
+  $('#cpHex').addEventListener('input', function (e) { var v = e.target.value.trim(); if (/^#?[0-9a-fA-F]{6}$/.test(v)) { setHSV(hexRgb(v.charAt(0) === '#' ? v : '#' + v)); render(); } });
+  $('#cpNative').addEventListener('input', function (e) { setHSV(hexRgb(e.target.value)); render(); });
   $('#cpEye').onclick = function () {
-    if ('EyeDropper' in window) new EyeDropper().open().then(function (r) { var t = rgb2hsv.apply(null, hexRgb(r.sRGBHex)); cp.h = t[0]; cp.s = t[1]; cp.v = t[2]; sync(); }).catch(function () {});
-    else { closeModal(); setTool('picker'); }
+    if ('EyeDropper' in window) new EyeDropper().open().then(function (r) { setHSV(hexRgb(r.sRGBHex)); render(); }).catch(function () {});
+    else { closeModal(); setTool('picker'); toast('Contagocce attivo: clicca sulla tela'); }
   };
-  $('#cpOk').onclick = function () { var rgb = hsv2rgb(cp.h, cp.s, cp.v); applyColor(rgbHex(rgb[0], rgb[1], rgb[2])); closeModal(); toast('Colore applicato'); };
-  sync();
+  $('#cpOk').onclick = function () { var rgb = rgbNow(), hex = rgbHex(rgb[0], rgb[1], rgb[2]); applyColor(hex); closeModal(); toast('Colore applicato: ' + hex); };
+  render();
 }
 
 /* ============ modali ============ */
