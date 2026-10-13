@@ -102,36 +102,27 @@ input[type=range]{accent-color:var(--accent)}
 .pc-acts button:hover{background:var(--accent)}
 .pcard-add{flex:none;width:88px;height:96px;border-radius:12px;border:2px dashed rgba(20,20,20,.22);color:var(--ink-2);display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;font-weight:800;font-size:11px;transition:.18s}
 .pcard-add:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
-#palette{width:224px;padding:16px 14px;overflow-y:auto;z-index:30;background:var(--panel);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-left:1px solid var(--line);display:flex;flex-direction:column;gap:16px}
+#palette{width:230px;padding:16px 14px;overflow-y:auto;z-index:30;background:var(--panel);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-left:1px solid var(--line);display:flex;flex-direction:column;gap:16px}
 .pal-title{font-family:'Space Grotesk';font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:8px}
 .pal-title::after{content:'';flex:1;height:1px;background:var(--line)}
-.pal-title .mini-x{margin-left:auto;width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--ink-2);transition:.15s}
+.pal-title .mini-x{margin-left:auto;width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--ink-2);transition:.15s;flex:none}
 .pal-title .mini-x:hover{background:rgba(20,20,20,.08);color:var(--accent)}
 .swatches{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
 .sw{aspect-ratio:1;border-radius:8px;border:1px solid rgba(20,20,20,.12);cursor:pointer;transition:transform .15s var(--ease),box-shadow .15s;position:relative}
 .sw:hover{transform:scale(1.18);box-shadow:0 4px 12px rgba(20,15,10,.2);z-index:2}
 .sw.on{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--accent)}
-.sw.none,.pp-none{background:linear-gradient(45deg,transparent 44%,#d21f1f 44%,#d21f1f 56%,transparent 56%),#fff !important}
-.pp-none{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);cursor:pointer;flex:none;transition:.15s}
-.pp-none.on{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--accent)}
+.sw.none{background-color:#fff;background-image:linear-gradient(45deg,transparent 44%,#d21f1f 44%,#d21f1f 56%,transparent 56%)}
+#palNone.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);color:var(--accent)}
 .pal-field{display:flex;flex-direction:column;gap:6px}
 .pal-field label{font-size:11px;font-weight:800;color:var(--ink-2);display:flex;justify-content:space-between}
 .pal-field output{color:var(--accent);font-weight:800}
 .pal-field input[type=range]{width:100%}
 .pal-note{font-size:10.5px;color:#a09a90;line-height:1.5;font-weight:600}
-.pp-row{display:flex;gap:8px;margin-top:9px;align-items:center}
-#ppHex{flex:1;border:1px solid var(--line);border-radius:10px;padding:8px 9px;font-weight:800;font-size:12px;font-family:'Roboto Mono',monospace;background:#fff;text-transform:uppercase;min-width:0}
-#ppNative{width:44px;height:38px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:3px;cursor:pointer;flex:none}
-.pp-mode{flex:1;border:1px solid var(--line);border-radius:8px;padding:7px 6px;font-size:11px;font-weight:800;background:#fff}
-.pp-name{font-size:11px;font-weight:800;color:var(--ink-2);white-space:nowrap}
 .cp-sel{width:250px;padding:7px 10px;font-size:12.5px}
 .cp-sq{position:relative;height:210px;border-radius:10px;border:1px solid var(--line);cursor:crosshair;background:#f00;touch-action:none}
-.pp-sq{height:148px}
 .cp-hu{position:relative;height:18px;margin-top:12px;border-radius:99px;border:1px solid var(--line);cursor:ew-resize;touch-action:none}
-.pp-hu{height:14px;margin-top:9px}
 .cp-knob{position:absolute;width:14px;height:14px;border:2.5px solid #fff;border-radius:50%;box-shadow:0 0 0 1.5px rgba(0,0,0,.55),0 2px 8px rgba(0,0,0,.35);transform:translate(-50%,-50%);pointer-events:none}
 .cp-knob.bar{width:10px;height:24px;border-radius:7px}
-.pp-hu .cp-knob.bar{height:20px}
 .cp-native{display:flex;align-items:center;gap:10px;margin-top:12px}
 .cp-native input[type=color]{width:52px;height:38px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:3px;cursor:pointer}
 .cp-native span{font-size:11px;font-weight:700;color:var(--ink-2)}
@@ -196,7 +187,7 @@ input[type=range]{accent-color:var(--accent)}
 .chip input{accent-color:var(--accent)}
 .chip:has(input:checked){border-color:var(--accent);background:#FFF1EA}
 .m-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}
-.m-note{font-size:11px;color:#a09a90;font-weight:600;line-height:1.5;background:#faf7f2;border:1px dashed rgba(20,20,20,.15);border-radius:10px;padding:9px 12px}
+.m-note{font-size:11px;color:#a09a90;line-height:1.5;background:#faf7f2;border:1px dashed rgba(20,20,20,.15);border-radius:10px;padding:9px 12px}
 kbd{background:rgba(20,20,20,.08);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:2px 7px;font-family:'Roboto Mono',monospace;font-size:11px;font-weight:700}
 .help-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px;font-size:13px;font-weight:600}
 .help-grid div{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:4px 0;border-bottom:1px dashed var(--line)}
@@ -205,7 +196,7 @@ kbd{background:rgba(20,20,20,.08);border:1px solid var(--line);border-bottom-wid
 .toast .t-dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
 .toast.out{opacity:0;transform:translateY(10px);transition:.35s}
 @keyframes toastIn{from{opacity:0;transform:translateY(14px) scale(.94)}to{opacity:1;transform:none}}
-@media (max-width:1100px){#palette{width:196px}.swatches{grid-template-columns:repeat(5,1fr)}}
+@media (max-width:1100px){#palette{width:204px}.swatches{grid-template-columns:repeat(5,1fr)}}
 </style>
 </head>
 <body>
@@ -286,23 +277,30 @@ kbd{background:rgba(20,20,20,.08);border:1px solid var(--line);border-bottom-wid
     <div>
       <div class="pal-title">Colore<button class="mini-x" id="btnExpandColor" title="Campi numerici completi (RGB/CMYK/HSB/Lab) e tavolozze"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button></div>
       <div id="palPicker" style="margin-top:10px">
-        <div id="ppSQ" class="cp-sq pp-sq"><div id="ppSQk" class="cp-knob"></div></div>
-        <div id="ppHU" class="cp-hu pp-hu"><div id="ppHUk" class="cp-knob bar"></div></div>
-        <div class="pp-row">
-          <input type="color" id="ppNative" value="#141414" title="Selettore di sistema: spettro completo">
-          <input id="ppHex" value="#141414" maxlength="7" spellcheck="false">
-          <button id="ppNone" class="pp-none" title="Colore vuoto rgba(0,0,0,0): nessun riempimento"></button>
+        <div id="ppSQ" style="position:relative;height:150px;border-radius:10px;border:1px solid rgba(20,20,20,.14);cursor:crosshair;touch-action:none;background:linear-gradient(to top,#000,rgba(0,0,0,0)),linear-gradient(to right,#fff,#f00)">
+          <div id="ppSQk" style="position:absolute;left:100%;top:0%;width:14px;height:14px;border:2.5px solid #fff;border-radius:50%;box-shadow:0 0 0 1.5px rgba(0,0,0,.55);transform:translate(-50%,-50%);pointer-events:none"></div>
         </div>
-        <div class="pp-row">
-          <select id="ppMode" class="pp-mode"><option value="H">HSB · tonalità</option><option value="S">HSB · saturazione</option><option value="V">HSB · luminosità</option></select>
-          <span id="ppName" class="pp-name">Nero</span>
+        <div id="ppHU" style="position:relative;height:16px;margin-top:9px;border-radius:99px;border:1px solid rgba(20,20,20,.14);cursor:ew-resize;touch-action:none;background:linear-gradient(to right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)">
+          <div id="ppHUk" style="position:absolute;left:0%;top:50%;width:10px;height:22px;border:2.5px solid #fff;border-radius:7px;box-shadow:0 0 0 1.5px rgba(0,0,0,.55);transform:translate(-50%,-50%);pointer-events:none"></div>
         </div>
+        <div style="display:flex;gap:8px;margin-top:9px;align-items:center">
+          <input type="color" id="ppNative" value="#141414" title="Selettore di sistema: spettro completo" style="width:44px;height:38px;border:1px solid rgba(20,20,20,.14);border-radius:10px;background:#fff;padding:3px;cursor:pointer;flex:none">
+          <input id="ppHex" value="#141414" maxlength="7" spellcheck="false" style="flex:1;min-width:0;border:1px solid rgba(20,20,20,.14);border-radius:10px;padding:8px 9px;font-weight:800;font-size:12px;font-family:'Roboto Mono',monospace;background:#fff;text-transform:uppercase">
+        </div>
+        <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+          <select id="ppMode" style="flex:1;border:1px solid rgba(20,20,20,.14);border-radius:8px;padding:7px 6px;font-size:11px;font-weight:800;background:#fff"><option value="H">HSB · tonalità</option><option value="S">HSB · saturazione</option><option value="V">HSB · luminosità</option></select>
+          <span id="ppName" style="font-size:11px;font-weight:800;color:#5c5850;white-space:nowrap">Nero</span>
+        </div>
+        <button id="palNone" style="margin-top:9px;width:100%;display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:10px;border:1.5px solid rgba(20,20,20,.14);background:#fff;font-size:11px;font-weight:800;color:#5c5850;cursor:pointer;transition:.15s">
+          <span style="width:22px;height:22px;border-radius:6px;border:1px solid rgba(20,20,20,.15);background-color:#fff;background-image:linear-gradient(45deg,transparent 44%,#d21f1f 44%,#d21f1f 56%,transparent 56%);flex:none"></span>
+          Colore vuoto · nessun riempimento
+        </button>
       </div>
     </div>
     <div><div class="pal-title">Moderni</div><div class="swatches" id="swModern" style="margin-top:10px"></div></div>
     <div><div class="pal-title">Pastello</div><div class="swatches" id="swPastel" style="margin-top:10px"></div></div>
     <div class="pal-field"><label>Opacità elemento <output id="opOut">100%</output></label><input type="range" id="opSlider" min="5" max="100" value="100"></div>
-    <div class="pal-note">Il picker è fisso qui: trascina quadrato e barra, usa il selettore di sistema o scrivi l'hex. Il tassello bianco con barra rossa = colore vuoto (nessun riempimento). Barra in basso: colori del documento (tasto destro = seleziona per colore).</div>
+    <div class="pal-note">Picker fisso: trascina quadrato e barra, usa il selettore di sistema o scrivi l'hex. Il pulsante con barra rossa = colore vuoto rgba(0,0,0,0). ⤢ apre i campi completi. Barra in basso: colori del documento (tasto destro = seleziona per colore).</div>
   </aside>
 </div>
 
@@ -533,8 +531,6 @@ var FLAG_D = { flagCheck: 'M 12 55 L 38 80 L 88 18', flagCross: 'M 15 15 L 85 85
 var RATIO_LOCK = ['star','arrow','tri','flagCheck','flagCross'];
 function startShape(p, pt) {
   var isFlag = App.tool === 'flag';
-  var base = isFlag ? { fill: '', stroke: '#141414', strokeWidth: App.strokeWidth, strokeLineCap: 'round', strokeLineJoin: 'round', opacity: App.opacity }
-                    : { fill: App.color, opacity: App.opacity, stroke: null, strokeWidth: 0 };
   var t = isFlag ? App.flag : App.shape; var o;
   if (t === 'rect' || t === 'rrect') o = new fabric.Rect({ fill: App.color, opacity: App.opacity, rx: t === 'rrect' ? 14 : 0, ry: t === 'rrect' ? 14 : 0, left: pt.x, top: pt.y, width: 1, height: 1 });
   else if (t === 'ellipse') o = new fabric.Ellipse({ fill: App.color, opacity: App.opacity, left: pt.x, top: pt.y, rx: .5, ry: .5 });
@@ -839,11 +835,13 @@ function hexRgb(h) { h = h.replace('#', ''); return [parseInt(h.slice(0, 2), 16)
 function rgbHex(r, g, b) { return '#' + [r, g, b].map(function (v) { return clamp(Math.round(v), 0, 255).toString(16).padStart(2, '0'); }).join('').toUpperCase(); }
 function colorName(rgb) { var best = null, bd = 1e9; CNAMES.forEach(function (n) { var c = hexRgb(n[1]); var d = Math.pow(c[0]-rgb[0],2) + Math.pow(c[1]-rgb[1],2) + Math.pow(c[2]-rgb[2],2); if (d < bd) { bd = d; best = n[0]; } }); return bd < 4200 ? best : 'Personalizzato'; }
 
-/* ================= PICKER FISSO A DESTRA ================= */
+/* ================= PICKER FISSO A DESTRA (autoportante) ================= */
 var pp = { h: 0, s: 0, v: 0 }, ppMode = 'H';
 function ppGrad(arr) { return 'linear-gradient(to right,' + arr.map(function (s, i) { return s + ' ' + (i / (arr.length - 1) * 100) + '%'; }).join(',') + ')'; }
 function renderPP() {
-  var sq = $('#ppSQ'), hu = $('#ppHU'), i, c, arr = [];
+  var sq = $('#ppSQ'), hu = $('#ppHU');
+  if (!sq || !hu) return;
+  var i, c, arr = [];
   if (ppMode === 'H') sq.style.background = 'linear-gradient(to top,#000,rgba(0,0,0,0)),linear-gradient(to right,#fff,hsl(' + pp.h + ',100%,50%))';
   else {
     for (i = 0; i <= 6; i++) { c = ppMode === 'S' ? hsv2rgb(i * 60, pp.s, 100) : hsv2rgb(i * 60, 100, pp.v); arr.push('rgb(' + c.join(',') + ')'); }
@@ -857,13 +855,13 @@ function renderPP() {
   else if (ppMode === 'S') { x = pp.h / 3.6; y = pp.v; hp = pp.s; }
   else { x = pp.h / 3.6; y = pp.s; hp = pp.v; }
   $('#ppSQk').style.left = x + '%'; $('#ppSQk').style.top = (100 - y) + '%';
-  $('#ppHUk').style.left = hp + '%'; $('#ppHUk').style.top = '50%';
+  $('#ppHUk').style.left = hp + '%';
   var none = App.color === NONE;
   var rgb = hsv2rgb(pp.h, pp.s, pp.v), hex = rgbHex(rgb[0], rgb[1], rgb[2]);
   if (document.activeElement !== $('#ppHex')) $('#ppHex').value = none ? 'NONE' : hex;
   if (!none && document.activeElement !== $('#ppNative')) $('#ppNative').value = hex.toLowerCase();
   $('#ppName').textContent = none ? 'Vuoto' : colorName(rgb);
-  $('#ppNone').classList.toggle('on', none);
+  $('#palNone').classList.toggle('on', none);
 }
 function syncColorUI() {
   if (App.color !== NONE) { var t = rgb2hsv.apply(null, hexRgb(App.color)); pp.h = t[0]; pp.s = t[1]; pp.v = t[2]; }
@@ -879,29 +877,34 @@ function applyColor(c) {
   syncColorUI();
 }
 (function initPanelPicker() {
-  var sq = $('#ppSQ'), hu = $('#ppHU');
-  function fromSq(e) {
-    var r = sq.getBoundingClientRect();
-    var px = clamp((e.clientX - r.left) / r.width * 100, 0, 100), py = clamp((e.clientY - r.top) / r.height * 100, 0, 100);
-    if (ppMode === 'H') { pp.s = px; pp.v = 100 - py; } else if (ppMode === 'S') { pp.h = px * 3.6; pp.v = 100 - py; } else { pp.h = px * 3.6; pp.s = 100 - py; }
-    var rgb = hsv2rgb(pp.h, pp.s, pp.v); applyColor(rgbHex(rgb[0], rgb[1], rgb[2]));
-  }
-  function fromHu(e) {
-    var r = hu.getBoundingClientRect();
-    var px = clamp((e.clientX - r.left) / r.width * 100, 0, 100);
-    if (ppMode === 'H') pp.h = px * 3.6; else if (ppMode === 'S') pp.s = px; else pp.v = px;
-    var rgb = hsv2rgb(pp.h, pp.s, pp.v); applyColor(rgbHex(rgb[0], rgb[1], rgb[2]));
-  }
-  function bindDrag(el, fn) {
-    el.addEventListener('mousedown', function (e) { e.preventDefault(); fn(e); function mv(ev) { fn(ev); } function up() { document.removeEventListener('mousemove', mv); document.removeEventListener('mouseup', up); } document.addEventListener('mousemove', mv); document.addEventListener('mouseup', up); });
-    el.addEventListener('touchstart', function (e) { e.preventDefault(); fn(e.touches[0]); function mv(ev) { ev.preventDefault(); fn(ev.touches[0]); } function up() { document.removeEventListener('touchmove', mv); document.removeEventListener('touchend', up); } document.addEventListener('touchmove', mv, { passive: false }); document.addEventListener('touchend', up); }, { passive: false });
-  }
-  bindDrag(sq, fromSq); bindDrag(hu, fromHu);
-  $('#ppMode').addEventListener('change', function (e) { ppMode = e.target.value; renderPP(); });
-  $('#ppNative').addEventListener('input', function (e) { applyColor(e.target.value.toUpperCase()); });
-  $('#ppHex').addEventListener('change', function (e) { var v = e.target.value.trim(); if (/^(none|vuoto)$/i.test(v)) { applyColor(NONE); return; } if (/^#?[0-9a-fA-F]{6}$/.test(v)) applyColor((v.charAt(0) === '#' ? v : '#' + v).toUpperCase()); else syncColorUI(); });
-  $('#ppNone').addEventListener('click', function () { applyColor(NONE); toast('Colore vuoto: nessun riempimento'); });
-  $('#btnExpandColor').addEventListener('click', openColorPicker);
+  function ready(fn) { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn); else fn(); }
+  ready(function () {
+    var sq = $('#ppSQ'), hu = $('#ppHU');
+    if (!sq || !hu) { console.warn('palPicker assente'); return; }
+    setTimeout(function () { if (sq.getBoundingClientRect().height < 10) sq.style.height = '150px'; if (hu.getBoundingClientRect().height < 6) hu.style.height = '16px'; }, 0);
+    function fromSq(e) {
+      var r = sq.getBoundingClientRect();
+      var px = clamp((e.clientX - r.left) / r.width * 100, 0, 100), py = clamp((e.clientY - r.top) / r.height * 100, 0, 100);
+      if (ppMode === 'H') { pp.s = px; pp.v = 100 - py; } else if (ppMode === 'S') { pp.h = px * 3.6; pp.v = 100 - py; } else { pp.h = px * 3.6; pp.s = 100 - py; }
+      var rgb = hsv2rgb(pp.h, pp.s, pp.v); applyColor(rgbHex(rgb[0], rgb[1], rgb[2]));
+    }
+    function fromHu(e) {
+      var r = hu.getBoundingClientRect();
+      var px = clamp((e.clientX - r.left) / r.width * 100, 0, 100);
+      if (ppMode === 'H') pp.h = px * 3.6; else if (ppMode === 'S') pp.s = px; else pp.v = px;
+      var rgb = hsv2rgb(pp.h, pp.s, pp.v); applyColor(rgbHex(rgb[0], rgb[1], rgb[2]));
+    }
+    function bindDrag(el, fn) {
+      el.addEventListener('mousedown', function (e) { e.preventDefault(); fn(e); function mv(ev) { fn(ev); } function up() { document.removeEventListener('mousemove', mv); document.removeEventListener('mouseup', up); } document.addEventListener('mousemove', mv); document.addEventListener('mouseup', up); });
+      el.addEventListener('touchstart', function (e) { e.preventDefault(); fn(e.touches[0]); function mv(ev) { ev.preventDefault(); fn(ev.touches[0]); } function up() { document.removeEventListener('touchmove', mv); document.removeEventListener('touchend', up); } document.addEventListener('touchmove', mv, { passive: false }); document.addEventListener('touchend', up); }, { passive: false });
+    }
+    bindDrag(sq, fromSq); bindDrag(hu, fromHu);
+    $('#ppMode').addEventListener('change', function (e) { ppMode = e.target.value; renderPP(); });
+    $('#ppNative').addEventListener('input', function (e) { applyColor(e.target.value.toUpperCase()); });
+    $('#ppHex').addEventListener('change', function (e) { var v = e.target.value.trim(); if (/^(none|vuoto)$/i.test(v)) { applyColor(NONE); return; } if (/^#?[0-9a-fA-F]{6}$/.test(v)) applyColor((v.charAt(0) === '#' ? v : '#' + v).toUpperCase()); else syncColorUI(); });
+    $('#palNone').addEventListener('click', function () { applyColor(NONE); toast('Colore vuoto: nessun riempimento'); });
+    $('#btnExpandColor').addEventListener('click', openColorPicker);
+  });
 })();
 
 /* ================= PICKER MODALE COMPLETO ================= */
@@ -1055,7 +1058,7 @@ $('#pbDel').onclick = deleteSel;
 $('#pbFwd').onclick = function () { var p = curPage(); activeObjs(p).forEach(function (o) { p.canvas.bringForward(o); }); p.canvas.requestRenderAll(); scheduleCommit(p); };
 $('#pbBwd').onclick = function () { var p = curPage(); activeObjs(p).forEach(function (o) { p.canvas.sendBackwards(o); }); p.canvas.requestRenderAll(); scheduleCommit(p); };
 
-/* ================= PALETTE swatches / opacità ================= */
+/* ================= PALETTE ================= */
 function buildSwatches(id, list) { var el = $(id); el.innerHTML = list.map(function (c) { return '<span class="sw" style="background:' + c + '" data-c="' + c + '" title="' + c + '"></span>'; }).join(''); el.addEventListener('click', function (e) { var s = e.target.closest('[data-c]'); if (s) applyColor(s.dataset.c); }); }
 buildSwatches('#swModern', MODERN); buildSwatches('#swPastel', PASTEL);
 $('#opSlider').oninput = function (e) { App.opacity = +e.target.value / 100; $('#opOut').textContent = e.target.value + '%'; var p = curPage(); if (p && p.canvas.getActiveObjects().length) { activeObjs(p).forEach(function (o) { o.set('opacity', App.opacity); }); p.canvas.requestRenderAll(); scheduleCommit(p); updatePropsBar(); } };
@@ -1142,7 +1145,7 @@ function cssHex(css) {
   if (m) { var p = m[1].split(',').map(Number); if (p.length === 4 && p[3] === 0) return null; return rgbHex(p[0], p[1], p[2]); }
   return null;
 }
-function simRGB(hex, cmykOn) { var r = hexRgb(hex)[0], g = hexRgb(hex)[1], b = hexRgb(hex)[2]; if (!cmykOn) return [r, g, b]; var k = 1 - Math.max(r, g, b) / 255; var C = 0, M = 0, Y = 0; if (k < 1) { C = (1 - r / 255 - k) / (1 - k); M = (1 - g / 255 - k) / (1 - k); Y = (1 - b / 255 - k) / (1 - k); var s = C + M + Y; if (s > 2.1) { var f = 2.1 / s; C *= f; M *= f; Y *= f; } } return [Math.round(255 * (1 - C) * (1 - k)), Math.round(255 * (1 - M) * (1 - k)), Math.round(255 * (1 - Y) * (1 - k))]; }
+function simRGB(hex, cmykOn) { var t = hexRgb(hex), r = t[0], g = t[1], b = t[2]; if (!cmykOn) return [r, g, b]; var k = 1 - Math.max(r, g, b) / 255; var C = 0, M = 0, Y = 0; if (k < 1) { C = (1 - r / 255 - k) / (1 - k); M = (1 - g / 255 - k) / (1 - k); Y = (1 - b / 255 - k) / (1 - k); var s = C + M + Y; if (s > 2.1) { var f = 2.1 / s; C *= f; M *= f; Y *= f; } } return [Math.round(255 * (1 - C) * (1 - k)), Math.round(255 * (1 - M) * (1 - k)), Math.round(255 * (1 - Y) * (1 - k))]; }
 function absPoints(o) {
   var local = null;
   if (o.type === 'polygon') local = o.points.map(function (p) { return { x: p.x, y: p.y }; });
@@ -1276,7 +1279,7 @@ $('#btnFit').onclick = fitZoom;
 $$('#viewSeg button').forEach(function (b) { b.onclick = function () { App.view = b.dataset.view; $$('#viewSeg button').forEach(function (x) { x.classList.toggle('on', x === b); }); applyView(); }; });
 $$('.tool[data-tool]').forEach(function (b) { b.addEventListener('click', function () { if (['toolShapes','toolFlag','toolHighlight'].indexOf(b.id) >= 0) return; setTool(b.dataset.tool); }); });
 $('#btnHelp').onclick = function () {
-  openModal('<div class="m-title"><span class="dot"></span>Scorciatoie</div><div class="m-body"><div class="help-grid"><div>Copia / Taglia / Incolla <span><kbd>Ctrl</kbd><kbd>C</kbd><kbd>X</kbd><kbd>V</kbd></span></div><div>Seleziona tutto / Duplica <span><kbd>Ctrl</kbd><kbd>A</kbd>/<kbd>D</kbd></span></div><div>Annulla / Ripeti <span><kbd>Ctrl</kbd><kbd>Z</kbd>/<kbd>⇧Z</kbd></span></div><div>Duplica trascinando <span><kbd>Alt</kbd>+drag</span></div><div>Blocca asse / ratio libero <span><kbd>⇧</kbd>+drag</span></div><div>Sposta preciso <span><kbd>←↑↓→</kbd> (⇧×10)</span></div><div>Strumenti <span><kbd>V T P H E S F B I</kbd></span></div><div>Cambia pagina <span><kbd>PgSu</kbd><kbd>PgGiù</kbd></span></div><div>Spessore <span>tasto destro sull\u2019icona</span></div><div>Picker completo <span>⤢ nel pannello colore</span></div></div><div class="m-note" style="margin-top:14px">Testo: casella con a capo automatico; maniglie laterali = larghezza box senza stirare il carattere; allineamento sx/centro/dx nella barra proprietà. Colore vuoto (tassello bianco con barra rossa) = nessun riempimento. Il picker è fisso nel pannello destro; il pulsante ⤢ apre campi numerici completi e tavolozze.</div></div><div class="m-actions"><button class="btn accent" data-close>Perfetto</button></div>');
+  openModal('<div class="m-title"><span class="dot"></span>Scorciatoie</div><div class="m-body"><div class="help-grid"><div>Copia / Taglia / Incolla <span><kbd>Ctrl</kbd><kbd>C</kbd><kbd>X</kbd><kbd>V</kbd></span></div><div>Seleziona tutto / Duplica <span><kbd>Ctrl</kbd><kbd>A</kbd>/<kbd>D</kbd></span></div><div>Annulla / Ripeti <span><kbd>Ctrl</kbd><kbd>Z</kbd>/<kbd>⇧Z</kbd></span></div><div>Duplica trascinando <span><kbd>Alt</kbd>+drag</span></div><div>Blocca asse / ratio libero <span><kbd>⇧</kbd>+drag</span></div><div>Sposta preciso <span><kbd>←↑↓→</kbd> (⇧×10)</span></div><div>Strumenti <span><kbd>V T P H E S F B I</kbd></span></div><div>Cambia pagina <span><kbd>PgSu</kbd><kbd>PgGiù</kbd></span></div><div>Spessore <span>tasto destro sull\u2019icona</span></div><div>Picker completo <span>⤢ nel pannello colore</span></div></div><div class="m-note" style="margin-top:14px">Il picker colore è fisso nel pannello destro: quadrato SAT/VAL, barra spettro, selettore di sistema, hex e nome. Il pulsante con barra rossa imposta il colore vuoto rgba(0,0,0,0). Testo: a capo automatico, box ridimensionabile senza stirare i glifi, allineamento sx/centro/dx.</div></div><div class="m-actions"><button class="btn accent" data-close>Perfetto</button></div>');
 };
 
 /* ================= AVVIO ================= */
